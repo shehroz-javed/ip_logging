@@ -293,27 +293,88 @@ doctor = (
 # task 2
 
 # - Select all patients with their associated doctors and nurses.
+patients = Patient.objects.prefetch_related("doctor").select_related("nurse").all()
+
 # - Select all patients admitted after a specific date.
+query_date = date(2024, 7, 22)
+patients = Patient.objects.filter(date_admitted__date__gt=query_date)
+
 # - Count the total number of patients.
+patients = Patient.objects.all().count()
+
 # - Count the total number of patients with a specific age.
+patients = Patient.objects.filter(age=20).count()
+
 # - Select all patients with their associated doctors and nurses prefetched.
+patients = Patient.objects.prefetch_related("doctor").select_related("nurse").all()
+
 # - Count the total number of doctors associated with each patient.
+patients = Patient.objects.annotate(num_of_doctors=Count("doctor")).all()
+
 # - Sum the ages of all patients.
+from django.db.models import Sum
+
+patients = Patient.objects.aggregate(Sum("age"))
+
 # - Select all patients along with the number of doctors associated with each.
+patients = Patient.objects.annotate(num_of_doctors=Count("doctor")).all()
+
 # - Select all patients along with their medical records, if available.
+patients = Patient.objects.prefetch_related("mr_patients").all()
+
 # - Count the total number of nurses associated with each patient.
+patients = Patient.objects.annotate(num_of_nurses=Count("nurse")).all()
+
 # - Select all patients with their associated nurses and the nurses' contact numbers.
+patients = Patient.objects.select_related("nurse").all()
+
 # - Select all patients along with the total number of medical records for each.
+patients = Patient.objects.prefetch_related("mr_patients").all()
+
 # - Select all patients with their diagnoses and prescriptions, if available.
+patients = Patient.objects.prefetch_related("mr_patients").all()
+
 # - Count the total number of patients admitted in a specific year.
+query_year = 2024
+patients = Patient.objects.filter(date_admitted__year=query_year).all()
+
 # - Select all patients along with their doctors' specializations.
+patients = Patient.objects.prefetch_related("doctor").all()
+
 # - Select all patients along with the count of medical records for each.
+patients = (
+    Patient.objects.prefetch_related("mr_patients")
+    .annotate(num_of_mr=Count("mr_patients"))
+    .all()
+)
+
 # - Select all doctors with the count of patients they are associated with.
+doctors = Doctor.objects.annotate(num_of_patients=Count("doctors")).all()
+
 # - Select all patients along with the count of nurses they are associated with.
+patients = Patient.objects.annotate(num_of_nurses=Count("nurse")).all()
+
 # - Annotate the average age of patients.
+patients = Patient.objects.annotate(avg_age=Avg("age")).all()
+
 # - Annotate the maximum age of patients.
+from django.db.models import Max, Min
+
+patients = Patient.objects.annotate(max_age=Max("age")).all()
+
 # - Annotate the minimum age of patients.
+patients = Patient.objects.annotate(min_age=Min("age")).all()
+
 # - Select all patients along with the earliest admission date.
+patients = Patient.objects.annotate(earliest_admission_date=Min("date_admitted")).all()
+
 # - Select all doctors with their associated patients prefetched.
+doctors = Doctor.objects.prefetch_related("doctors").all()
+
 # - Select all nurses with their associated patients prefetched.
+nurses = Nurse.objects.prefetch_related("nurses").all()
+
 # - Select all patients along with the count of distinct doctors they are associated with.
+patients = Patient.objects.annotate(
+    num_of_distinct_doctors=Count("doctor", distinct=True)
+).all()
