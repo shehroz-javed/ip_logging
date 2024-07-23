@@ -149,3 +149,6 @@ LOGGING = {
 
 # Auth user model
 AUTH_USER_MODEL = "account.User"
+
+# Login url
+LOGIN_URL = "/login/"
