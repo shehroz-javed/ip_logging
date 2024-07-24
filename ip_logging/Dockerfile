@@ -10,7 +10,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . /ip_logging/
-# RUN chmod +x manage.py
 
 EXPOSE 8000
 
