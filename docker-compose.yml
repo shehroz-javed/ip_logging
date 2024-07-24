@@ -1,0 +1,32 @@
+services:
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - ip_logging_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=test_postgres
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./ip_logging
+    volumes:
+      - ./ip_logging:/ip_logging
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - db
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    restart: on-failure
+
+volumes:
+  ip_logging_db:

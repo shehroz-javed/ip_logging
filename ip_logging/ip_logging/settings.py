@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-de*9x+bf2f-+p#5pkus=r)=s*^z-32f+(0p&@d!n=^2qn*64!g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -79,8 +79,12 @@ WSGI_APPLICATION = "ip_logging.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "USER": "postgres",
+        "NAME": "postgres",
+        "PASSWORD": "test_postgres",
+        "HOST": "db",
+        "PORT": "5432",
     }
 }
 
@@ -152,3 +156,8 @@ AUTH_USER_MODEL = "account.User"
 
 # Login url
 LOGIN_URL = "/login/"
+
+# smtp configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
