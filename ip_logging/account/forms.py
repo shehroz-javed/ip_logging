@@ -4,10 +4,8 @@ from django.contrib.auth import authenticate
 
 class LoginForm(forms.Form):
 
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Username"}
-        )
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Email"})
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
@@ -18,11 +16,11 @@ class LoginForm(forms.Form):
     def clean(self):
 
         cleaned_data = super().clean()
-        username = cleaned_data.get("username")
+        email = cleaned_data.get("email")
         password = cleaned_data.get("password")
 
-        if username and password:
-            user = authenticate(username=username, password=password)
+        if email and password:
+            user = authenticate(email=email, password=password)
             if not user:
                 raise forms.ValidationError("Invalid username or password")
             cleaned_data["user"] = user

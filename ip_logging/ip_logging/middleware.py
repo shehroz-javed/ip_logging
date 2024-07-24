@@ -44,7 +44,7 @@ class RateLimitMiddleware:
             )
 
             if request_obj.updated_at >= rate_limit_time:
-                if request_obj.count >= 5:
+                if request_obj.count >= 50:
                     return HttpResponseForbidden(
                         "You have exceeded the limit of 5 requests per minute."
                     )

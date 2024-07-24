@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import LoginForm
 
 
-class Home(View, LoginRequiredMixin):
+class Home(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "home.html")
 
@@ -28,7 +28,7 @@ class Login(View):
             login(request, user)
             return redirect("home")
 
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template, {"form": form})
 
 
 class Logout(View):
